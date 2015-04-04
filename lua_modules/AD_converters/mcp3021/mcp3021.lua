@@ -11,6 +11,7 @@
 --  YouTube: https://www.youtube.com/user/AllAboutEE
 --  Website: http://AllAboutEE.com
 --
+-- MCP3021 Breakout Board: 
 --------------------------------------------------------------------------------------------
 local moduleName = ... 
 local M = {}
@@ -31,7 +32,9 @@ _G[moduleName] = M
     -- e.g. For MCP3021A5 the addressBits wouldb be 5, 
     -- for MCP3021A0 the addressBits would be 0
     --
-    -- @brief Reads from the A/D given the unique address
+    -- @brief Reads 10-bit value from the A/D converter
+    --
+    -- @returns Digital value between 0 and 1023
     ---------------------------------------------------------------------------------------------
     function M.read(addressBits)
         local address = bit.bor(addressBits,MCP3021_I2C_ADDRESS) -- MCP3021 devices have addresses 0b1001xxx 
@@ -66,14 +69,6 @@ _G[moduleName] = M
             return M.ERROR_NAK -- received NAK from address
         end
 
-    end
-
-    -- @name readV
-    -- @brief Gives A/D reading as voltage
-    -- @returns The value read from the A/D Converter as a voltage
-    ---------------------------------------------------------------------------------
-    function M.readV(addressBits)
-        return M.read(addressBits)*3.3/1024 -- convert digital value to voltage value
     end
 
     -- @name setup
